@@ -1,0 +1,126 @@
+[
+  {
+    "_id": "6d666cbd-becf-478d-a8b6-201189eb95a6",
+    "colId": "1e9e1e1e-46df-4387-acbb-1449683ec671",
+    "containerId": "",
+    "name": "getAll",
+    "url": "http://localhost:8080/users",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2022-11-02T15:42:05.814Z",
+    "modified": "2022-11-09T15:47:28.585Z",
+    "headers": [],
+    "params": [],
+    "tests": [
+      {
+        "type": "json-query",
+        "custom": "json",
+        "action": "istype",
+        "value": "array"
+      },
+      {
+        "type": "json-query",
+        "custom": "json[0].id",
+        "action": ">",
+        "value": "0"
+      }
+    ]
+  },
+  {
+    "_id": "f39bab68-b128-46e8-9480-7cf0ecdb21fb",
+    "colId": "1e9e1e1e-46df-4387-acbb-1449683ec671",
+    "containerId": "",
+    "name": "create",
+    "url": "http://localhost:8080/users",
+    "method": "POST",
+    "sortNum": 30000,
+    "created": "2022-11-02T17:45:43.181Z",
+    "modified": "2022-11-09T13:57:17.565Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"test_user\",\n  \"email\": \"test_user@mail.com\",\n  \"password\": \"123\",\n  \"roles\": [\n    2,\n    3\n  ],\n  \"person\": {\n    \"firstName\": \"Test\",\n    \"lastName\": \"User\"\n  }\n}",
+      "form": []
+    },
+    "tests": [
+      {
+        "type": "set-env-var",
+        "custom": "json.id",
+        "action": "setto",
+        "value": "{{created_user_id}}"
+      },
+      {
+        "type": "json-query",
+        "custom": "json.name",
+        "action": "equal",
+        "value": "test_user"
+      }
+    ]
+  },
+  {
+    "_id": "6c7840bf-4cb4-4f16-ad1d-f2ee017433b6",
+    "colId": "1e9e1e1e-46df-4387-acbb-1449683ec671",
+    "containerId": "",
+    "name": "update",
+    "url": "http://localhost:8080/users/{{created_user_id}}",
+    "method": "PUT",
+    "sortNum": 40000,
+    "created": "2022-11-09T13:37:47.728Z",
+    "modified": "2022-11-09T15:08:50.895Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"test_user\",\n  \"email\": \"toto@mail.com\",\n  \"password\": \"ToBeTheBest\",\n  \"roles\": [1],\n  \"person\": {\n    \"firstName\": \"Totto\",\n    \"lastName\": \"Singer\",\n    \"birthDate\": \"1969-05-05\",\n    \"height\": 1.83\n  }\n}",
+      "form": []
+    },
+    "tests": [
+      {
+        "type": "set-env-var",
+        "custom": "json.id",
+        "action": "setto",
+        "value": "{{created_user_id}}"
+      },
+      {
+        "type": "json-query",
+        "custom": "json.maxRole",
+        "action": "equal",
+        "value": "student"
+      },
+      {
+        "type": "json-query",
+        "custom": "json.person.height",
+        "action": "equal",
+        "value": "1.83"
+      }
+    ]
+  },
+  {
+    "_id": "4ae2221a-f2aa-4d54-87dc-58e7b131cf1b",
+    "colId": "1e9e1e1e-46df-4387-acbb-1449683ec671",
+    "containerId": "",
+    "name": "delete",
+    "url": "http://localhost:8080/users/{{created_user_id}}",
+    "method": "DELETE",
+    "sortNum": 50000,
+    "created": "2022-11-09T13:39:49.438Z",
+    "modified": "2022-11-09T15:44:55.273Z",
+    "headers": [],
+    "params": [],
+    "tests": [
+      {
+        "type": "json-query",
+        "custom": "json.success",
+        "action": "equal",
+        "value": "true"
+      },
+      {
+        "type": "json-query",
+        "custom": "json.data.id",
+        "action": "equal",
+        "value": "{{created_user_id}}"
+      }
+    ]
+  }
+]
