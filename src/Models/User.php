@@ -80,16 +80,22 @@ class User implements JsonSerializable
 
 	public function setPassword($password)
 	{
+		if (!isset($password)) return;
+
 		$this->password = $password;
 	}
 
 	public function setName($name)
 	{
+		if (!isset($name)) return;
+
 		$this->name = $name;
 	}
 
 	public function setEmail($email)
 	{
+		if (!isset($email)) return;
+
 		$this->email = $email;
 	}
 

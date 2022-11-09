@@ -4,6 +4,13 @@
     "colName": "Pruebas",
     "created": "2022-10-19T20:19:31.246Z",
     "sortNum": 10000,
-    "folders": []
+    "folders": [],
+    "settings": {
+      "runOptions": {
+        "delay": 500,
+        "iterations": 3,
+        "dataFilePath": ""
+      }
+    }
   }
 ]

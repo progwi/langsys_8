@@ -67,7 +67,7 @@
     "method": "PUT",
     "sortNum": 40000,
     "created": "2022-11-09T13:37:47.728Z",
-    "modified": "2022-11-09T15:08:50.895Z",
+    "modified": "2022-11-09T20:59:40.065Z",
     "headers": [],
     "params": [],
     "body": {
@@ -77,22 +77,22 @@
     },
     "tests": [
       {
-        "type": "set-env-var",
-        "custom": "json.id",
-        "action": "setto",
-        "value": "{{created_user_id}}"
-      },
-      {
         "type": "json-query",
-        "custom": "json.maxRole",
+        "custom": "json.data.maxRole",
         "action": "equal",
         "value": "student"
       },
       {
         "type": "json-query",
-        "custom": "json.person.height",
+        "custom": "json.data.person.height",
         "action": "equal",
         "value": "1.83"
+      },
+      {
+        "type": "json-query",
+        "custom": "json.success",
+        "action": "equal",
+        "value": "true"
       }
     ]
   },

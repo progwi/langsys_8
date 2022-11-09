@@ -60,28 +60,41 @@ class UserService
 		]
 	])
 	{
+		$response = [];
+
 		$user = $this->getUser($userId);
 		if (!$user) {
-			return null;
+
+			$response['success'] = false;
+			$response['message'] = 'User ' . $userId . ' not found.';
+			return $response;
 		}
-		$user->setName($userData['name']);
-		$user->setEmail($userData['email']);
-		$user->setPassword($userData['password']);
-		$user->getPerson()->setFirstName($userData['person']['firstName']);
-		$user->getPerson()->setLastName($userData['person']['lastName']);
-		$user->getPerson()->setHeight($userData['person']['height']);
-		$user->getPerson()->setBirthDate($userData['person']['birthDate']);
-		$this->setRoles($user, $userData['roles']);
+		$user->setName($userData['name'] ?? null);
+		$user->setEmail($userData['email'] ?? null);
+		$user->setPassword($userData['password'] ?? null);
+		$user->getPerson()->setFirstName($userData['person']['firstName'] ?? null);
+		$user->getPerson()->setLastName($userData['person']['lastName'] ?? null);
+		$user->getPerson()->setHeight($userData['person']['height'] ?? null);
+		$user->getPerson()->setBirthDate($userData['person']['birthDate'] ?? null);
+		$this->setRoles($user, $userData['roles'] ?? []);
 		$this->entityManager->flush();
-		return $user;
+		$response['success'] = true;
+		$response['message'] = 'User updated successfully';
+		$response['data'] = $user;
+		return $response;
 	}
 
 	public function delete($userId)
 	{
+		$response = [];
+
 		$user = $this->getUser($userId);
 		if (!$user) {
-			return null;
+			$response['success'] = false;
+			$response['message'] = 'User ' . $userId . ' not found.';
+			return $response;
 		}
+
 		$this->entityManager->remove($user);
 		$this->entityManager->flush();
 		$response = [
@@ -106,6 +119,9 @@ class UserService
 
 	public function setRoles($user, $roles = [])
 	{
+		if (count ($roles) == 0) {
+			return;
+		}
 		$user->clearRoles();
 		foreach ($roles as $roleId) {
 			$roleEntity = $this->entityManager->getRepository(Role::class)->findOneBy(
